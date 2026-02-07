@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CHN IT Support System">
+  <meta name="theme-color" content="#6366f1">
+  
+  <title>CHN IT Support Portal</title>
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎫</text></svg>">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==================== LOADING SCREEN ==================== -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-icon">
+        <div class="loading-icon-inner">
+          <i class="fas fa-headset"></i>
+        </div>
+      </div>
+      <h1>CHN IT Support</h1>
+      <p class="loading-subtitle">Professional IT Support Portal</p>
+      <div class="loading-progress-container">
+        <div class="loading-bar">
+          <div class="loading-progress" id="loading-progress"></div>
+        </div>
+      </div>
+      <div class="loading-steps">
+        <div class="loading-step active" id="load-step-1">
+          <div class="loading-step-icon"><i class="fas fa-server"></i></div>
+          <span class="loading-step-text">Connecting</span>
+        </div>
+        <div class="loading-step" id="load-step-2">
+          <div class="loading-step-icon"><i class="fas fa-shield-alt"></i></div>
+          <span class="loading-step-text">Securing</span>
+        </div>
+        <div class="loading-step" id="load-step-3">
+          <div class="loading-step-icon"><i class="fas fa-check"></i></div>
+          <span class="loading-step-text">Ready</span>
+        </div>
+      </div>
+      <p><i class="fas fa-circle-notch fa-spin"></i> Initializing system...</p>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN APP ==================== -->
+  <div id="app" class="app">
+
+    <!-- ==================== LOGIN SECTION ==================== -->
+    <section id="login-section" class="login-section hidden">
+      <div class="login-wrapper">
+        
+        <!-- Login Card -->
+        <div class="auth-card" id="login-card">
+          <div class="auth-header">
+            <div class="auth-icon"><i class="fas fa-headset"></i></div>
+            <h1>CHN IT Support</h1>
+            <p>Professional IT Support Portal</p>
+          </div>
+
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="staff">
+              <i class="fas fa-user"></i> Staff Login
+            </button>
+            <button class="auth-tab" data-tab="admin">
+              <i class="fas fa-shield-alt"></i> Admin
+            </button>
+          </div>
+
+          <form id="login-form" class="auth-form">
+            <div class="input-group">
+              <label><i class="fas fa-envelope"></i> Email Address</label>
+              <input type="email" id="login-email" placeholder="your.email@company.com" required autocomplete="email">
+            </div>
+            <div class="input-group hidden" id="admin-password-group">
+              <label><i class="fas fa-lock"></i> Admin Password</label>
+              <input type="password" id="admin-password" placeholder="Enter admin password" autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn-submit">
+              <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+          </form>
+
+          <div class="auth-divider"><span>New User?</span></div>
+          <button class="btn-secondary" id="show-register-btn">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+          <footer class="chn-footer" role="contentinfo">
+  <div class="footer-glow"></div>
+
+  <p class="footer-text">
+    <span class="brand">CHN Ticket System</span>
+    <span class="divider">•</span>
+    Designed & Maintained by
+    <span class="author" data-role="it-support">Dinesh-IT Support</span>
+  </p>
+
+  <p class="footer-sub">
+    <span class="tag">IT Support</span>
+    <span class="tag">Secure</span>
+    <span class="tag">Fast</span>
+    <span class="tag">Reliable</span>
+  </p>
+
+  <p class="footer-link">
+    <a href="https://www.dinuping.com" target="_blank" rel="noopener">
+      dinuping.com
+    </a>
+    © <span id="year"></span>
+  </p>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+        </div>
+
+        <!-- Register Card -->
+        <div class="auth-card hidden" id="register-card">
+          <div class="auth-header">
+            <div class="auth-icon green"><i class="fas fa-user-plus"></i></div>
+            <h1>Create Account</h1>
+            <p>Register for IT Support access</p>
+          </div>
+
+          <form id="register-form" class="auth-form">
+            <div class="input-row">
+              <div class="input-group">
+                <label><i class="fas fa-user"></i> First Name</label>
+                <input type="text" id="reg-firstname" placeholder="John" required>
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-user"></i> Last Name</label>
+                <input type="text" id="reg-lastname" placeholder="Doe" required>
+              </div>
+            </div>
+            <div class="input-group">
+              <label><i class="fas fa-envelope"></i> Email</label>
+              <input type="email" id="reg-email" placeholder="john.doe@company.com" required>
+            </div>
+            <div class="input-group">
+              <label><i class="fas fa-phone"></i> Phone</label>
+              <input type="tel" id="reg-phone" placeholder="+91 9876543210">
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label><i class="fas fa-building"></i> Department</label>
+                <select id="reg-department" required>
+                  <option value="">Select...</option>
+                  <option value="IT">IT</option>
+                  <option value="HR">HR</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Operations">Operations</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Admin">Administration</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-id-badge"></i> Designation</label>
+                <input type="text" id="reg-designation" placeholder="Your Role" required>
+              </div>
+            </div>
+            <div class="input-group">
+              <label><i class="fas fa-map-marker-alt"></i> Location</label>
+              <input type="text" id="reg-location" placeholder="Building, Floor">
+            </div>
+            <button type="submit" class="btn-submit green">
+              <i class="fas fa-paper-plane"></i> Submit Registration
+            </button>
+            <button type="button" class="btn-link" id="back-to-login-btn">
+              <i class="fas fa-arrow-left"></i> Back to Login
+            </button>
+          </form>
+        </div>
+
+        <!-- Pending Card -->
+        <div class="auth-card hidden" id="pending-card">
+          <div class="auth-header">
+            <div class="auth-icon orange pulse-animation"><i class="fas fa-hourglass-half"></i></div>
+            <h1>Pending Approval</h1>
+            <p>Your registration is awaiting admin approval</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-email" id="pending-email">your.email@company.com</div>
+            <div class="pending-timeline">
+              <div class="timeline-item done"><i class="fas fa-check-circle"></i><span>Registration Submitted</span></div>
+              <div class="timeline-item active"><i class="fas fa-spinner fa-spin"></i><span>Awaiting Admin Approval</span></div>
+              <div class="timeline-item"><i class="fas fa-circle"></i><span>Account Activated</span></div>
+            </div>
+            <div class="pending-note">
+              <i class="fas fa-info-circle"></i>
+              You'll receive a welcome email once approved. Usually within 24 hours.
+            </div>
+          </div>
+          <button type="button" class="btn-secondary" id="check-status-btn">
+            <i class="fas fa-sync-alt"></i> Check Status
+          </button>
+          <button type="button" class="btn-link" id="pending-back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Login
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== DASHBOARD SECTION ==================== -->
+    <section id="dashboard-section" class="dashboard-section hidden">
+      
+      <!-- Header -->
+      <header class="main-header">
+        <div class="header-brand">
+          <i class="fas fa-headset"></i>
+          <span>CHN IT Support</span>
+        </div>
+        
+        <nav class="header-nav">
+          <button class="nav-item active" data-page="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></button>
+          <button class="nav-item" data-page="my-tickets"><i class="fas fa-ticket-alt"></i><span>My Tickets</span></button>
+          <button class="nav-item engineer-only hidden" data-page="all-tickets"><i class="fas fa-list"></i><span>All Tickets</span></button>
+          <button class="nav-item admin-only hidden" data-page="admin"><i class="fas fa-cog"></i><span>Admin</span></button>
+        </nav>
+
+        <div class="header-actions">
+          <div class="sync-indicator" id="sync-indicator">
+            <i class="fas fa-check-circle"></i><span>Synced</span>
+          </div>
+          <button class="icon-btn" id="sound-toggle" title="Toggle Sound"><i class="fas fa-volume-up"></i></button>
+          <div class="user-dropdown-container">
+            <button class="user-btn" id="user-menu-btn">
+              <div class="user-avatar" id="user-avatar">JD</div>
+              <div class="user-details">
+                <span class="user-name" id="header-user-name">John Doe</span>
+                <span class="user-role" id="header-user-role">Staff</span>
+              </div>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="user-dropdown hidden" id="user-dropdown">
+              <div class="dropdown-user-info">
+                <div class="user-avatar large" id="dropdown-avatar">JD</div>
+                <div>
+                  <strong id="dropdown-name">John Doe</strong>
+                  <small id="dropdown-email">john@company.com</small>
+                </div>
+              </div>
+              <hr>
+              <a href="#" class="dropdown-link" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        
+        <!-- ===== DASHBOARD PAGE ===== -->
+        <div id="page-dashboard" class="page active">
+          <div class="page-title">
+            <h1><i class="fas fa-home"></i> Dashboard</h1>
+            <p>Welcome back! Here's your IT support overview.</p>
+          </div>
+          <div class="page-toolbar">
+            <button class="btn-primary" onclick="App.navigateTo('create')"><i class="fas fa-plus"></i> New Ticket</button>
+            <button class="btn-secondary" onclick="App.refreshDashboard()"><i class="fas fa-sync-alt"></i> Refresh</button>
+          </div>
+          <div class="stats-row">
+            <div class="stat-card blue">
+              <div class="stat-icon"><i class="fas fa-folder-open"></i></div>
+              <div class="stat-data"><span class="stat-number" id="stat-open">0</span><span class="stat-label">Open</span></div>
+            </div>
+            <div class="stat-card orange">
+              <div class="stat-icon"><i class="fas fa-spinner"></i></div>
+              <div class="stat-data"><span class="stat-number" id="stat-progress">0</span><span class="stat-label">In Progress</span></div>
+            </div>
+            <div class="stat-card red" id="critical-card">
+              <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+              <div class="stat-data"><span class="stat-number" id="stat-critical">0</span><span class="stat-label">Critical</span></div>
+            </div>
+            <div class="stat-card purple">
+              <div class="stat-icon"><i class="fas fa-arrow-up"></i></div>
+              <div class="stat-data"><span class="stat-number" id="stat-high">0</span><span class="stat-label">High Priority</span></div>
+            </div>
+            <div class="stat-card green">
+              <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="stat-data"><span class="stat-number" id="stat-resolved">0</span><span class="stat-label">Resolved</span></div>
+            </div>
+            <div class="stat-card teal">
+              <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+              <div class="stat-data"><span class="stat-number" id="stat-today">0</span><span class="stat-label">Today</span></div>
+            </div>
+          </div>
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <div class="card-title"><h3><i class="fas fa-clock"></i> Recent Tickets</h3><button class="btn-small" onclick="App.navigateTo('all-tickets')">View All</button></div>
+              <div class="card-content" id="recent-tickets"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+            </div>
+            <div class="dashboard-card">
+              <div class="card-title"><h3><i class="fas fa-user"></i> My Tickets</h3><button class="btn-small" onclick="App.navigateTo('my-tickets')">View All</button></div>
+              <div class="card-content" id="my-recent-tickets"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+            </div>
+            <div class="dashboard-card full-width">
+              <div class="card-title"><h3><i class="fas fa-stream"></i> Recent Activity</h3></div>
+              <div class="card-content" id="activity-feed"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CREATE TICKET PAGE ===== -->
+        <div id="page-create" class="page hidden">
+          <div class="page-title">
+            <h1><i class="fas fa-plus-circle"></i> Create New Ticket</h1>
+            <p>Submit an IT support request</p>
+          </div>
+          <div class="form-container">
+            <form id="create-ticket-form" class="ticket-form">
+              <div class="form-section">
+                <h3><i class="fas fa-tags"></i> Category</h3>
+                <div class="category-options">
+                  <label class="category-item"><input type="radio" name="category" value="Hardware" required><div class="category-box"><i class="fas fa-desktop"></i><span>Hardware</span></div></label>
+                  <label class="category-item"><input type="radio" name="category" value="Software"><div class="category-box"><i class="fas fa-window-restore"></i><span>Software</span></div></label>
+                  <label class="category-item"><input type="radio" name="category" value="Network"><div class="category-box"><i class="fas fa-wifi"></i><span>Network</span></div></label>
+                  <label class="category-item"><input type="radio" name="category" value="Email"><div class="category-box"><i class="fas fa-envelope"></i><span>Email</span></div></label>
+                  <label class="category-item"><input type="radio" name="category" value="Security"><div class="category-box"><i class="fas fa-shield-alt"></i><span>Security</span></div></label>
+                  <label class="category-item"><input type="radio" name="category" value="Other"><div class="category-box"><i class="fas fa-ellipsis-h"></i><span>Other</span></div></label>
+                </div>
+              </div>
+              <div class="form-section hidden" id="subcategory-section">
+                <h3><i class="fas fa-sitemap"></i> Issue Type</h3>
+                <select id="ticket-subcategory" class="form-select"><option value="">Select type...</option></select>
+              </div>
+              <div class="form-section">
+                <h3><i class="fas fa-edit"></i> Details</h3>
+                <div class="input-group">
+                  <label>Subject *</label>
+                  <input type="text" id="ticket-title" placeholder="Brief description of your issue" required minlength="5" maxlength="100">
+                  <small><span id="title-count">0</span>/100 characters</small>
+                </div>
+                <div class="input-group">
+                  <label>Description *</label>
+                  <textarea id="ticket-description" rows="5" placeholder="Please describe your issue in detail..." required minlength="10"></textarea>
+                </div>
+                <div class="input-row">
+                  <div class="input-group">
+                    <label>Priority *</label>
+                    <select id="ticket-priority" required>
+                      <option value="Low">🟢 Low</option>
+                      <option value="Medium" selected>🟡 Medium</option>
+                      <option value="High">🟠 High</option>
+                      <option value="Critical">🔴 Critical</option>
+                    </select>
+                  </div>
+                  <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" id="ticket-location" placeholder="Your location">
+                  </div>
+                </div>
+              </div>
+              <div class="form-section highlight">
+                <h3><i class="fas fa-user"></i> Your Information</h3>
+                <div class="user-info-grid">
+                  <div><label>Name:</label><span id="requester-name">-</span></div>
+                  <div><label>Email:</label><span id="requester-email">-</span></div>
+                  <div><label>Department:</label><span id="requester-department">-</span></div>
+                  <div><label>Designation:</label><span id="requester-designation">-</span></div>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="App.navigateTo('dashboard')">Cancel</button>
+                <button type="submit" class="btn-primary large"><i class="fas fa-paper-plane"></i> Submit Ticket</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ===== MY TICKETS PAGE ===== -->
+        <div id="page-my-tickets" class="page hidden">
+          <div class="page-title">
+            <h1><i class="fas fa-ticket-alt"></i> My Tickets</h1>
+            <p>Your submitted support requests</p>
+          </div>
+          <div class="page-toolbar">
+            <button class="btn-primary" onclick="App.navigateTo('create')"><i class="fas fa-plus"></i> New Ticket</button>
+          </div>
+          <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Open">Open</button>
+            <button class="filter-btn" data-filter="In Progress">In Progress</button>
+            <button class="filter-btn" data-filter="Resolved">Resolved</button>
+          </div>
+          <div class="tickets-container" id="my-tickets-list">
+            <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading your tickets...</div>
+          </div>
+        </div>
+
+        <!-- ===== ALL TICKETS PAGE ===== -->
+        <div id="page-all-tickets" class="page hidden">
+          <div class="page-title">
+            <h1><i class="fas fa-list"></i> All Tickets</h1>
+            <p>View and manage all tickets</p>
+          </div>
+          <div class="page-toolbar">
+            <button class="btn-secondary" onclick="Tickets.exportToCSV()"><i class="fas fa-download"></i> Export</button>
+            <button class="btn-secondary" onclick="App.loadAllTickets()"><i class="fas fa-sync-alt"></i> Refresh</button>
+          </div>
+          <div class="filters-panel">
+            <div class="filter-item"><label>Status</label><select id="filter-status"><option value="All">All</option><option value="Open">Open</option><option value="In Progress">In Progress</option><option value="Pending">Pending</option><option value="Resolved">Resolved</option><option value="Closed">Closed</option></select></div>
+            <div class="filter-item"><label>Priority</label><select id="filter-priority"><option value="All">All</option><option value="Critical">Critical</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></div>
+            <div class="filter-item"><label>Category</label><select id="filter-category"><option value="All">All</option><option value="Hardware">Hardware</option><option value="Software">Software</option><option value="Network">Network</option><option value="Email">Email</option><option value="Security">Security</option><option value="Other">Other</option></select></div>
+            <div class="filter-item grow"><label>Search</label><input type="text" id="filter-search" placeholder="Search tickets..."></div>
+            <button class="btn-primary" id="apply-filters"><i class="fas fa-search"></i> Search</button>
+            <button class="btn-secondary" id="clear-filters"><i class="fas fa-times"></i> Clear</button>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead><tr><th>ID</th><th>Subject</th><th>Category</th><th>Requester</th><th>Priority</th><th>Status</th><th>Assigned</th><th>Created</th><th>Actions</th></tr></thead>
+              <tbody id="tickets-table-body"><tr><td colspan="9" class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
+            </table>
+          </div>
+          <div class="pagination-bar">
+            <button class="btn-secondary" id="prev-page"><i class="fas fa-chevron-left"></i> Previous</button>
+            <span id="page-info">Page 1 of 1</span>
+            <button class="btn-secondary" id="next-page">Next <i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <!-- ===== ADMIN PAGE ===== -->
+        <div id="page-admin" class="page hidden admin-only">
+          <div class="page-title">
+            <h1><i class="fas fa-cog"></i> Admin Panel</h1>
+            <p>Manage tickets, users, and settings</p>
+          </div>
+
+          <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="pending-users"><i class="fas fa-user-clock"></i> Pending Users <span class="badge" id="pending-count">0</span></button>
+            <button class="admin-tab" data-tab="all-users"><i class="fas fa-users"></i> All Users</button>
+            <button class="admin-tab" data-tab="totp-setup"><i class="fas fa-key"></i> TOTP Setup</button>
+            <button class="admin-tab" data-tab="settings"><i class="fas fa-sliders-h"></i> Settings</button>
+          </div>
+
+          <!-- Pending Users Tab -->
+          <div class="admin-tab-content active" id="tab-pending-users">
+            <div class="section-header">
+              <h2><i class="fas fa-user-clock"></i> Pending Registrations</h2>
+              <button class="btn-secondary" onclick="App.loadPendingUsers()"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+            <div id="pending-users-container">
+              <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+            </div>
+          </div>
+
+          <!-- All Users Tab -->
+          <div class="admin-tab-content hidden" id="tab-all-users">
+            <div class="section-header">
+              <h2><i class="fas fa-users"></i> All Users</h2>
+              <button class="btn-secondary" onclick="App.loadAllUsers()"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Role</th><th>Last Login</th><th>Actions</th></tr></thead>
+                <tbody id="users-table-body"><tr><td colspan="6" class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ===== TOTP SETUP TAB ===== -->
+          <div class="admin-tab-content hidden" id="tab-totp-setup">
+            <div class="section-header">
+              <h2><i class="fas fa-key"></i> TOTP Authenticator Setup</h2>
+            </div>
+            
+            <div class="settings-grid">
+              <!-- Setup Card -->
+              <div class="settings-card">
+                <h3><i class="fas fa-qrcode"></i> Setup Google Authenticator</h3>
+                <p style="color: var(--gray-500); margin-bottom: 20px; font-size: 14px;">
+                  Scan the QR code with Google Authenticator, Microsoft Authenticator, or any TOTP app.
+                </p>
+                
+                <!-- Step 1: Generate -->
+                <div id="totp-step-generate">
+                  <button type="button" class="btn-primary" onclick="App.generateTOTP()" style="width:100%;padding:18px;font-size:16px;">
+                    <i class="fas fa-key"></i> Generate TOTP Secret
+                  </button>
+                </div>
+                
+                <!-- Step 2: QR Code -->
+                <div id="totp-step-scan" style="display:none;">
+                  <div style="text-align:center;margin:25px 0;">
+                    <div style="background:#fff;padding:25px;border-radius:16px;display:inline-block;border:2px solid var(--gray-200);box-shadow:var(--shadow-lg);">
+                      <div id="totp-qr-code" style="min-width:200px;min-height:200px;display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:24px;color:var(--gray-400);"></i>
+                      </div>
+                    </div>
+                    <p style="color:var(--gray-500);font-size:13px;margin-top:12px;"><i class="fas fa-mobile-alt"></i> Scan with Authenticator app</p>
+                  </div>
+                  
+                  <div style="background:var(--gray-50);padding:20px;border-radius:12px;margin:20px 0;border:1px solid var(--gray-200);">
+                    <label style="font-size:12px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:8px;">
+                      <i class="fas fa-keyboard"></i> Manual Entry Key
+                    </label>
+                    <div id="totp-secret-display" style="font-family:'Courier New',monospace;font-size:18px;font-weight:700;letter-spacing:3px;color:var(--primary);text-align:center;padding:15px;background:#fff;border-radius:8px;border:2px dashed var(--primary-light);word-break:break-all;user-select:all;">
+                      ---- ---- ---- ----
+                    </div>
+                    <button type="button" class="btn-small" onclick="App.copyTOTPSecret()" style="margin-top:10px;width:100%;">
+                      <i class="fas fa-copy"></i> Copy Secret Key
+                    </button>
+                  </div>
+                  
+                  <button type="button" class="btn-secondary" onclick="App.generateTOTP()" style="width:100%;margin-bottom:15px;">
+                    <i class="fas fa-redo"></i> Generate New Secret
+                  </button>
+                </div>
+                
+                <!-- Step 3: Verify -->
+                <div id="totp-step-verify" style="display:none;margin-top:25px;padding-top:25px;border-top:2px solid var(--gray-200);">
+                  <h4 style="margin-bottom:15px;color:var(--gray-700);display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-check-circle" style="color:var(--success);"></i> Verify Setup
+                  </h4>
+                  <p style="color:var(--gray-500);font-size:14px;margin-bottom:15px;">
+                    Enter the 6-digit code shown in your Authenticator app:
+                  </p>
+                  <input type="text" id="totp-verify-code" 
+                         placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+                         oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                         style="font-family:'Courier New',monospace;font-size:32px;letter-spacing:12px;text-align:center;padding:18px;width:100%;border:2px solid var(--gray-200);border-radius:12px;display:block;">
+                  <button type="button" class="btn-primary" onclick="App.verifyTOTPSetup()" style="width:100%;margin-top:15px;padding:16px;font-size:16px;">
+                    <i class="fas fa-shield-alt"></i> Verify & Activate
+                  </button>
+                  <div id="totp-verify-status" style="display:none;margin-top:15px;padding:15px;border-radius:10px;text-align:center;font-weight:600;"></div>
+                </div>
+                
+                <!-- Already Setup -->
+                <div id="totp-already-setup" style="display:none;margin-top:20px;padding:25px;background:rgba(34,197,94,0.1);border-radius:12px;border:2px solid rgba(34,197,94,0.3);text-align:center;">
+                  <i class="fas fa-check-circle" style="font-size:42px;color:var(--success);margin-bottom:12px;display:block;"></i>
+                  <strong style="color:var(--success);font-size:18px;">TOTP is Active</strong>
+                  <p style="color:var(--gray-500);font-size:14px;margin-top:8px;">Your authenticator is configured and working.</p>
+                  <button type="button" class="btn-secondary" onclick="App.resetTOTP()" style="margin-top:15px;">
+                    <i class="fas fa-redo"></i> Reset & Setup New
+                  </button>
+                </div>
+              </div>
+
+              <!-- Info Card -->
+              <div class="settings-card">
+                <h3><i class="fas fa-info-circle"></i> How It Works</h3>
+                <div style="color:var(--gray-600);font-size:14px;line-height:1.8;">
+                  <div style="display:flex;flex-direction:column;gap:18px;margin:15px 0;">
+                    <div style="display:flex;gap:15px;align-items:flex-start;">
+                      <div style="width:40px;height:40px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:var(--primary);font-size:16px;">1</div>
+                      <div><strong>Generate Secret</strong><p style="margin:4px 0 0;color:var(--gray-500);font-size:13px;">Click the button to create a unique secret key</p></div>
+                    </div>
+                    <div style="display:flex;gap:15px;align-items:flex-start;">
+                      <div style="width:40px;height:40px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:var(--primary);font-size:16px;">2</div>
+                      <div><strong>Scan QR Code</strong><p style="margin:4px 0 0;color:var(--gray-500);font-size:13px;">Open Google Authenticator and scan the QR</p></div>
+                    </div>
+                    <div style="display:flex;gap:15px;align-items:flex-start;">
+                      <div style="width:40px;height:40px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:var(--primary);font-size:16px;">3</div>
+                      <div><strong>Verify Code</strong><p style="margin:4px 0 0;color:var(--gray-500);font-size:13px;">Enter the 6-digit code from your app</p></div>
+                    </div>
+                    <div style="display:flex;gap:15px;align-items:flex-start;">
+                      <div style="width:40px;height:40px;background:rgba(34,197,94,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:var(--success);font-size:16px;">✓</div>
+                      <div><strong>Approve Users</strong><p style="margin:4px 0 0;color:var(--gray-500);font-size:13px;">Use codes to securely approve registrations</p></div>
+                    </div>
+                  </div>
+                  <div style="background:rgba(245,158,11,0.1);padding:16px;border-radius:10px;margin-top:20px;border-left:4px solid var(--warning);">
+                    <strong style="color:#92400e;">⚠️ Important</strong>
+                    <ul style="margin:8px 0 0;padding-left:18px;color:#92400e;font-size:13px;list-style:disc;">
+                      <li>Setup only once per admin</li>
+                      <li>Don't share your secret key</li>
+                      <li>Codes refresh every 30 seconds</li>
+                    </ul>
+                  </div>
+                  <div style="background:rgba(14,165,233,0.1);padding:16px;border-radius:10px;margin-top:15px;border-left:4px solid var(--info);">
+                    <strong style="color:#0369a1;">📱 Supported Apps</strong>
+                    <p style="margin:8px 0 0;color:#0369a1;font-size:13px;">Google Authenticator • Microsoft Authenticator • Authy • 1Password</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div class="admin-tab-content hidden" id="tab-settings">
+            <div class="settings-grid">
+              <div class="settings-card">
+                <h3><i class="fab fa-telegram"></i> Telegram Notifications</h3>
+                <div class="input-group"><label>Bot Token</label><input type="text" id="setting-telegram-token" placeholder="123456:ABC-DEF..."></div>
+                <div class="input-group"><label>Chat ID</label><input type="text" id="setting-telegram-chat" placeholder="-1001234567890"></div>
+                <div class="button-row">
+                  <button class="btn-primary" id="save-telegram">Save</button>
+                  <button class="btn-secondary" id="test-telegram">Test</button>
+                </div>
+              </div>
+              <div class="settings-card">
+                <h3><i class="fas fa-envelope"></i> Email Settings</h3>
+                <div class="input-group"><label>From Name</label><input type="text" id="setting-email-from" placeholder="IT Support Team"></div>
+                <div class="input-group"><label>Admin Email</label><input type="email" id="setting-admin-email" placeholder="itsupport@company.com"></div>
+                <button class="btn-primary" id="save-email-settings">Save</button>
+              </div>
+              <div class="settings-card">
+                <h3><i class="fas fa-volume-up"></i> Sound Settings</h3>
+                <label class="checkbox-item"><input type="checkbox" id="setting-sound" checked><span>Enable sound effects</span></label>
+                <div class="button-row">
+                  <button class="btn-secondary" onclick="Sound.play('success')">Test Success</button>
+                  <button class="btn-secondary" onclick="Sound.play('error')">Test Error</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </section>
+
+    <!-- ===== TICKET MODAL ===== -->
+    <div id="ticket-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-box large">
+        <div class="modal-header">
+          <h2><i class="fas fa-ticket-alt"></i> <span id="modal-ticket-id">TKT-0000</span></h2>
+          <span class="status-badge" id="modal-status-badge">Open</span>
+          <button class="modal-close" onclick="closeModal('ticket-modal')">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-footer" id="modal-footer"></div>
+      </div>
+    </div>
+
+    <!-- ===== FEEDBACK MODAL ===== -->
+    <div id="feedback-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2><i class="fas fa-star"></i> Rate Your Experience</h2>
+          <button class="modal-close" onclick="closeModal('feedback-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="feedback-form">
+            <input type="hidden" id="feedback-ticket-id">
+            <div class="star-rating-container">
+              <div class="star-rating">
+                <span class="star" data-rating="1"><i class="fas fa-star"></i></span>
+                <span class="star" data-rating="2"><i class="fas fa-star"></i></span>
+                <span class="star" data-rating="3"><i class="fas fa-star"></i></span>
+                <span class="star" data-rating="4"><i class="fas fa-star"></i></span>
+                <span class="star" data-rating="5"><i class="fas fa-star"></i></span>
+              </div>
+              <input type="hidden" id="feedback-rating" value="0">
+              <p id="rating-text">Select a rating</p>
+            </div>
+            <div class="input-group"><label>Comments (Optional)</label><textarea id="feedback-comment" rows="4" placeholder="Share your experience..."></textarea></div>
+            <button type="submit" class="btn-primary full-width"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+  </div>
+  <!-- AUDIO -->
+  <audio id="sound-success" preload="auto" src="./assets/success.mp3"></audio>
+  <audio id="sound-notification" preload="auto" src="./assets/notification.mp3"></audio>
+  <audio id="sound-error" preload="auto" src="./assets/error.mp3"></audio>
+  <audio id="sound-click" preload="auto" src="./assets/click.mp3"></audio>
+
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/totp.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/tickets.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
