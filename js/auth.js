@@ -9,6 +9,7 @@ const Auth = {
   isLoggedIn: false,
   pendingEmail: null,
 
+  
   // ============ INITIALIZATION ============
 
   init() {
@@ -26,7 +27,28 @@ const Auth = {
     }
     return false;
   },
+// In auth.js
+checkSession() {
+  const stored = Utils.storage.get('user');
+  const sessionExpiry = Utils.storage.get('sessionExpiry');
+  
+  if (stored && sessionExpiry) {
+    if (Date.now() > sessionExpiry) {
+      this.logout();
+      Utils.showToast('Session expired. Please login again.', 'warning');
+      return false;
+    }
+    return true;
+  }
+  return false;
+},
 
+// Set expiry on login (e.g., 8 hours)
+login() {
+  // ... after successful login
+  const expiryTime = Date.now() + (3 * 60 * 60 * 1000); // 8 hours
+  Utils.storage.set('sessionExpiry', expiryTime);
+},
   // ============ LOGIN ============
 
   async login(email, password, isAdmin) {

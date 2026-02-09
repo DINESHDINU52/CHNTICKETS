@@ -93,7 +93,21 @@ const Utils = {
       return { success: false, message: 'Connection error. Please try again.' };
     }
   },
-
+async apiWithRetry(action, params, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const result = await this.api(action, params);
+      if (result.success) return result;
+      
+      if (i < retries - 1) {
+        await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Exponential backoff
+      }
+    } catch (e) {
+      if (i === retries - 1) throw e;
+    }
+  }
+  return { success: false, message: 'Failed after ' + retries + ' attempts' };
+},
   // Sync Status Indicator
   setSyncStatus(status) {
     const el = document.getElementById('sync-indicator');
@@ -142,11 +156,16 @@ const Utils = {
 
     container.appendChild(toast);
 
-    // Sound
-    if (type === 'success') Sound.play('success');
-    else if (type === 'error') Sound.play('error');
-    else Sound.play('notification');
-
+   // Sound - REPLACE existing code with:
+if (type === 'success') {
+  Sound.play('success');
+} else if (type === 'error') {
+  Sound.play('error');
+} else if (type === 'warning') {
+  Sound.play('notification');
+} else {
+  Sound.play('notification');
+}
     // Show with animation
     setTimeout(function() { toast.classList.add('show'); }, 10);
 
@@ -268,6 +287,8 @@ const Utils = {
     }
   },
 
+
+  
   // Show/Hide
   show(el) {
     if (typeof el === 'string') el = document.getElementById(el);
@@ -337,3 +358,4 @@ const Utils = {
 document.addEventListener('DOMContentLoaded', function() {
   Sound.init();
 });
+

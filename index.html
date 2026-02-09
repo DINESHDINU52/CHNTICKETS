@@ -2,16 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CHN IT Support System">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="CHN IT Support System - Professional IT Support Portal">
   <meta name="theme-color" content="#6366f1">
+  
+  <!-- PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CHN Support">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="CHN Support">
+  <meta name="msapplication-TileColor" content="#6366f1">
+  <meta name="msapplication-TileImage" content="/assets/icons/icon-144x144.png">
   
   <title>CHN IT Support Portal</title>
   
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎫</text></svg>">
   
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="/assets/icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon-192x192.png">
+  
+  <!-- Splash Screens for iOS -->
+  <link rel="apple-touch-startup-image" href="/assets/icons/icon-512x512.png">
+  
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Stylesheets -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -670,21 +693,60 @@
 
   </div>
   <!-- AUDIO -->
-  <audio id="sound-success" preload="auto" src="./assets/success.mp3"></audio>
+  <audio id="sound-success" preload="auto" src="./assets/success 1.mp3"></audio>
   <audio id="sound-notification" preload="auto" src="./assets/notification.mp3"></audio>
   <audio id="sound-error" preload="auto" src="./assets/error.mp3"></audio>
   <audio id="sound-click" preload="auto" src="./assets/click.mp3"></audio>
+  <!-- AUDIO ELEMENTS - Enhanced Sound System 
+<audio id="sound-success" preload="auto" src="./assets/sounds/success.mp3"></audio>
+<audio id="sound-error" preload="auto" src="./assets/sounds/error.mp3"></audio>
+<audio id="sound-notification" preload="auto" src="./assets/sounds/notification.mp3"></audio>
+<audio id="sound-click" preload="auto" src="./assets/sounds/click.mp3"></audio>
+<audio id="sound-pop" preload="auto" src="./assets/sounds/pop.mp3"></audio>
+<audio id="sound-swoosh" preload="auto" src="./assets/sounds/swoosh.mp3"></audio>
+<audio id="sound-ding" preload="auto" src="./assets/sounds/ding.mp3"></audio>
+<audio id="sound-toggle" preload="auto" src="./assets/sounds/toggle.mp3"></audio>
+<audio id="sound-typing" preload="auto" src="./assets/sounds/typing.mp3"></audio>
+<audio id="sound-send" preload="auto" src="./assets/sounds/send.mp3"></audio>
+<audio id="sound-receive" preload="auto" src="./assets/sounds/receive.mp3"></audio>
+<audio id="sound-warning" preload="auto" src="./assets/sounds/warning.mp3"></audio>
+<audio id="sound-delete" preload="auto" src="./assets/sounds/delete.mp3"></audio>
+<audio id="sound-lock" preload="auto" src="./assets/sounds/lock.mp3"></audio>
+<audio id="sound-unlock" preload="auto" src="./assets/sounds/unlock.mp3"></audio>
+<audio id="sound-star" preload="auto" src="./assets/sounds/star.mp3"></audio>
+<audio id="sound-complete" preload="auto" src="./assets/sounds/complete.mp3"></audio>
+<audio id="sound-hover" preload="auto" src="./assets/sounds/hover.mp3"></audio>
+<audio id="sound-modal-open" preload="auto" src="./assets/sounds/modal-open.mp3"></audio>
+<audio id="sound-modal-close" preload="auto" src="./assets/sounds/modal-close.mp3"></audio>
+<audio id="sound-refresh" preload="auto" src="./assets/sounds/refresh.mp3"></audio>
+<audio id="sound-tab" preload="auto" src="./assets/sounds/tab.mp3"></audio>
+<audio id="sound-approve" preload="auto" src="./assets/sounds/approve.mp3"></audio>
+<audio id="sound-reject" preload="auto" src="./assets/sounds/reject.mp3"></audio>
+<audio id="sound-login" preload="auto" src="./assets/sounds/login.mp3"></audio>
+<audio id="sound-logout" preload="auto" src="./assets/sounds/logout.mp3"></audio>
+<audio id="sound-level-up" preload="auto" src="./assets/sounds/level-up.mp3"></audio> -->
 
   <!-- QR Code Library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 
-  <!-- App Scripts -->
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/totp.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/tickets.js"></script>
-  <script src="js/app.js"></script>
+<!-- Single Click Sound -->
+<audio id="sound-click" preload="auto">
+  <source src="./assets/click.mp3" type="audio/mpeg">
+  <source src="./assets/click.ogg" type="audio/ogg">
+  <source src="./assets/click.wav" type="audio/wav">
+</audio>
+<audio id="sound-click" preload="auto">
+  <source src="data:audio/mp3;base64,//uQxAAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uQxBUAAADSAAAAADEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVQ==" type="audio/mp3">
+</audio>
+<!-- Sound Toggle connects to Sound.toggle() -->
+<script src="js/sounds.js"></script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/totp.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/tickets.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pwa.js"></script> 
 
 </body>
 </html>

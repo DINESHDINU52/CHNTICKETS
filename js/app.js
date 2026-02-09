@@ -132,6 +132,7 @@ var App = {
   // ============ NAVIGATION ============
 
   navigateTo: function(page) {
+    Sound.play('click'); // ✅ Already exists 
     if (page === 'all-tickets' && !Auth.canViewAllTickets()) {
       Utils.showToast('Access denied', 'error');
       page = 'my-tickets';
@@ -326,6 +327,7 @@ var App = {
 
   handleCreateTicket: async function(e) {
     e.preventDefault();
+    Sound.play('click'); // ✅ ADD THIS
     var form = e.target;
     var btn = form.querySelector('button[type="submit"]');
     var cat = form.querySelector('input[name="category"]:checked');
@@ -346,11 +348,13 @@ var App = {
 
     if (result.success) {
       Utils.showToast('Ticket ' + result.ticketId + ' created!', 'success');
+      Sound.play('success'); // ✅ Already exists, keep it
       form.reset();
       var tc = document.getElementById('title-count'); if (tc) tc.textContent = '0';
       Utils.hide('subcategory-section');
       setTimeout(function() { App.navigateTo('my-tickets'); }, 1500);
     } else {
+       Sound.play('error'); // ✅ ADD THIS
       Utils.showToast(result.message || 'Failed', 'error');
     }
   },
@@ -461,9 +465,11 @@ var App = {
     if (btn) Utils.setButtonLoading(btn, false);
     if (result.success) {
       Utils.showToast('✅ User approved!', 'success');
+       Sound.play('success'); // ✅ ADD THIS
       if (card) { card.style.transition='all 0.3s'; card.style.opacity='0'; card.style.transform='translateX(100px)'; }
       setTimeout(function() { App.loadPendingUsers(); }, 300);
     } else {
+      Sound.play('error'); // ✅ ADD THIS
       Utils.showToast(result.message || 'Failed', 'error');
     }
   },
@@ -478,9 +484,11 @@ var App = {
     if (btn) Utils.setButtonLoading(btn, false);
     if (result.success) {
       Utils.showToast('Rejected', 'warning');
+      Sound.play('notification'); // ✅ ADD THIS
       if (card) { card.style.transition='all 0.3s'; card.style.opacity='0'; }
       setTimeout(function() { App.loadPendingUsers(); }, 300);
     } else {
+      Sound.play('error'); // ✅ ADD THIS
       Utils.showToast(result.message || 'Failed', 'error');
     }
   },
@@ -587,6 +595,7 @@ var App = {
 
   verifyTOTPSetup: async function() {
     var inp = document.getElementById('totp-verify-code');
+    Sound.play('click'); // ✅ ADD at start
     var code = inp ? inp.value.replace(/\D/g, '') : '';
     var statusEl = document.getElementById('totp-verify-status');
 
@@ -685,7 +694,10 @@ var App = {
     var titleEl = document.getElementById('modal-ticket-id');
     var statusBadge = document.getElementById('modal-status-badge');
     if (!modal || !body) return;
+    
 
+
+    
     modal.classList.remove('hidden');
     body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
     footer.innerHTML = '';
@@ -697,7 +709,19 @@ var App = {
       return;
     }
 
-    var ticket = result.ticket;
+  
+  // Add loading skeleton instead of generic spinner
+  body.innerHTML = `
+
+  
+    <div class="skeleton-loader">
+      <div class="skeleton-line" style="width:60%"></div>
+      <div class="skeleton-line" style="width:100%"></div>
+      <div class="skeleton-line" style="width:80%"></div>
+    </div>
+  `;
+
+var ticket = result.ticket;
     var isOwner = ticket.createdByEmail === Auth.getUserEmail();
     var canViewAll = Auth.canViewAllTickets();
 
@@ -821,6 +845,7 @@ var App = {
     // Auth tabs
     document.querySelectorAll('.auth-tab').forEach(function(tab) {
       tab.addEventListener('click', function() {
+        Sound.play('click'); // ✅ ADD THIS
         document.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
         tab.classList.add('active');
         var isAdmin = tab.dataset.tab === 'admin';
@@ -896,6 +921,7 @@ var App = {
     // Admin tabs
     document.querySelectorAll('.admin-tab').forEach(function(tab) {
       tab.addEventListener('click', function() {
+         Sound.play('click'); // ✅ ADD THIS
         document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
         tab.classList.add('active');
         var tabName = tab.dataset.tab;
@@ -980,6 +1006,7 @@ var App = {
 
   handleRegister: async function(e) {
     e.preventDefault();
+     Sound.play('click'); // ✅ ADD THIS
     var userData = {
       firstName: (document.getElementById('reg-firstname')?.value || '').trim(),
       lastName: (document.getElementById('reg-lastname')?.value || '').trim(),
@@ -995,9 +1022,11 @@ var App = {
     Utils.setButtonLoading(btn, false);
     if (result.success) {
       Utils.showToast('Registration submitted!', 'success');
+      Sound.play('success'); // ✅ ADD THIS
       Utils.hide('register-card'); Utils.show('pending-card');
       document.getElementById('pending-email').textContent = userData.email;
     } else {
+      Sound.play('error'); // ✅ ADD THIS
       Utils.showToast(result.message || 'Failed', 'error');
     }
   }
