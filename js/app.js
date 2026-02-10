@@ -740,7 +740,7 @@ var ticket = result.ticket;
       '<div class="ticket-detail-section"><h4><i class="fas fa-clock"></i> Timeline</h4><div class="detail-grid"><div class="detail-item"><label>Created</label><span>' + Utils.formatDateTime(ticket.createdTime) + '</span></div><div class="detail-item"><label>Assigned To</label><span>' + (ticket.assignedTo||'Not assigned') + '</span></div>' + (ticket.resolvedTime ? '<div class="detail-item"><label>Resolved</label><span>' + Utils.formatDateTime(ticket.resolvedTime) + '</span></div>' : '') + '</div></div>' +
       (ticket.resolutionNotes ? '<div class="ticket-detail-section"><h4><i class="fas fa-check-circle"></i> Resolution</h4><div class="detail-description">' + Utils.escapeHtml(ticket.resolutionNotes) + '</div></div>' : '') +
       (ticket.feedbackRating ? '<div class="ticket-detail-section"><h4><i class="fas fa-star"></i> Feedback</h4><div class="feedback-display"><div class="stars">' + '★'.repeat(ticket.feedbackRating) + '☆'.repeat(5-ticket.feedbackRating) + '</div>' + (ticket.feedbackComment ? '<p>"' + Utils.escapeHtml(ticket.feedbackComment) + '"</p>' : '') + '</div></div>' : '') +
-      (Auth.canManageTickets() ? '<div class="ticket-detail-section admin-controls"><h4><i class="fas fa-cog"></i> Admin Controls</h4><div class="detail-grid"><div class="input-group"><label>Assign To</label><input type="text" id="modal-assign-input" placeholder="Enter name or leave blank" value="' + (ticket.assignedTo || '') + '"></div><div class="input-group"><label>Status</label><select id="modal-status-select">' + CONFIG.STATUSES.map(function(s) { return '<option value="' + s.id + '"' + (s.id===ticket.status?' selected':'') + '>' + s.name + '</option>'; }).join('') + '</select></div><div class="input-group full-width"><label>Resolution Notes</label><textarea id="modal-resolution" rows="3">' + (ticket.resolutionNotes||'') + '</textarea></div></div></div>' : '');
+      (Auth.canManageTickets() ? '<div class="ticket-detail-section admin-controls"><h4><i class="fas fa-cog"></i> Admin Controls</h4><div class="detail-grid"><div class="input-group"><label>Assign To</label><select id="modal-assign-select"><option value="">Loading...</option></select></div><div class="input-group"><label>Status</label><select id="modal-status-select">' + CONFIG.STATUSES.map(function(s) { return '<option value="' + s.id + '"' + (s.id===ticket.status?' selected':'') + '>' + s.name + '</option>'; }).join('') + '</select></div><div class="input-group full-width"><label>Resolution Notes</label><textarea id="modal-resolution" rows="3">' + (ticket.resolutionNotes||'') + '</textarea></div></div></div>' : '');
 
     // Load engineers
     if (Auth.canManageTickets()) {
@@ -1044,25 +1044,3 @@ document.addEventListener('DOMContentLoaded', function() { App.init(); });
 // Error handling
 window.addEventListener('error', function(e) { console.error('Error:', e.error); });
 window.addEventListener('unhandledrejection', function(e) { console.error('Rejection:', e.reason); });
-// Add datalist for autocomplete suggestions
-const assignInput = document.getElementById('modal-assign-input');
-if (assignInput) {
-  const datalist = document.createElement('datalist');
-  datalist.id = 'assignee-suggestions';
-  
-  // Get unique assignees from existing tickets
-  const assignees = [...new Set(
-    Object.values(Database.getTickets())
-      .map(t => t.assignedTo)
-      .filter(a => a)
-  )];
-  
-  assignees.forEach(name => {
-    const option = document.createElement('option');
-    option.value = name;
-    datalist.appendChild(option);
-  });
-  
-  assignInput.setAttribute('list', 'assignee-suggestions');
-  assignInput.parentNode.appendChild(datalist);
-}
