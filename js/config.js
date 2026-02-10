@@ -6,7 +6,7 @@
 
 const CONFIG = {
   // ============ API ============
-  API_URL: 'https://script.google.com/macros/s/AKfycbzghNA4BNHQQB3R7FJWvqOie2fdv8LTRnl11hMKw5ZEtxXTauQUp7GGZcsgsr4eBUO7uQ/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbyU3HaAGQyHXxTIdyZFLUPaR59xpWILW86NAH-rAmODtdR7bO1Ha-SnjKbHKabbnMwRNQ/exec',
 
   // ============ APP INFO ============
   APP_NAME: 'CHN IT Support',

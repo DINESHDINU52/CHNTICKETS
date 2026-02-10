@@ -3475,3 +3475,17 @@ body.is-offline .login-section {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
 }
+
+#modal-assign-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+#modal-assign-input:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
