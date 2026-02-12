@@ -1,7 +1,7 @@
 /**
  * CHN IT Support System
  * Main Application
- * Version: 4.0.0 - TOTP + Full Screen
+ * Version: 4.0.1 - Fixed Feedback System
  */
 
 var App = {
@@ -12,7 +12,7 @@ var App = {
   // ============ INITIALIZATION ============
 
   init: async function() {
-    console.log('🏰 CHN IT Support v4.0.0');
+    console.log('🏰 CHN IT Support v4.0.1');
 
     try {
       this.updateLoadingStep(1, 'active');
@@ -132,7 +132,7 @@ var App = {
   // ============ NAVIGATION ============
 
   navigateTo: function(page) {
-    Sound.play('click'); // ✅ Already exists 
+    Sound.play('click');
     if (page === 'all-tickets' && !Auth.canViewAllTickets()) {
       Utils.showToast('Access denied', 'error');
       page = 'my-tickets';
@@ -160,7 +160,6 @@ var App = {
     });
 
     this.loadPage(page);
-    Sound.play('click');
   },
 
   loadPage: async function(page) {
@@ -327,7 +326,7 @@ var App = {
 
   handleCreateTicket: async function(e) {
     e.preventDefault();
-    Sound.play('click'); // ✅ ADD THIS
+    Sound.play('click');
     var form = e.target;
     var btn = form.querySelector('button[type="submit"]');
     var cat = form.querySelector('input[name="category"]:checked');
@@ -348,13 +347,13 @@ var App = {
 
     if (result.success) {
       Utils.showToast('Ticket ' + result.ticketId + ' created!', 'success');
-      Sound.play('success'); // ✅ Already exists, keep it
+      Sound.play('success');
       form.reset();
       var tc = document.getElementById('title-count'); if (tc) tc.textContent = '0';
       Utils.hide('subcategory-section');
       setTimeout(function() { App.navigateTo('my-tickets'); }, 1500);
     } else {
-       Sound.play('error'); // ✅ ADD THIS
+      Sound.play('error');
       Utils.showToast(result.message || 'Failed', 'error');
     }
   },
@@ -465,11 +464,11 @@ var App = {
     if (btn) Utils.setButtonLoading(btn, false);
     if (result.success) {
       Utils.showToast('✅ User approved!', 'success');
-       Sound.play('success'); // ✅ ADD THIS
+      Sound.play('success');
       if (card) { card.style.transition='all 0.3s'; card.style.opacity='0'; card.style.transform='translateX(100px)'; }
       setTimeout(function() { App.loadPendingUsers(); }, 300);
     } else {
-      Sound.play('error'); // ✅ ADD THIS
+      Sound.play('error');
       Utils.showToast(result.message || 'Failed', 'error');
     }
   },
@@ -484,11 +483,11 @@ var App = {
     if (btn) Utils.setButtonLoading(btn, false);
     if (result.success) {
       Utils.showToast('Rejected', 'warning');
-      Sound.play('notification'); // ✅ ADD THIS
+      Sound.play('notification');
       if (card) { card.style.transition='all 0.3s'; card.style.opacity='0'; }
       setTimeout(function() { App.loadPendingUsers(); }, 300);
     } else {
-      Sound.play('error'); // ✅ ADD THIS
+      Sound.play('error');
       Utils.showToast(result.message || 'Failed', 'error');
     }
   },
@@ -526,33 +525,28 @@ var App = {
 
     this._totpSecret = setup.secret;
 
-    // Show QR Code
     var qrEl = document.getElementById('totp-qr-code');
     if (qrEl) {
       qrEl.innerHTML = setup.qrHtml;
     }
 
-    // Show secret for manual entry
     var secEl = document.getElementById('totp-secret-display');
     if (secEl) {
       secEl.textContent = setup.formattedSecret;
     }
 
-    // Toggle visibility using style.display
     document.getElementById('totp-step-generate').style.display = 'none';
     var alreadyEl = document.getElementById('totp-already-setup');
     if (alreadyEl) alreadyEl.style.display = 'none';
     document.getElementById('totp-step-scan').style.display = 'block';
     document.getElementById('totp-step-verify').style.display = 'block';
 
-    // Clear and focus verify input
     var verifyInput = document.getElementById('totp-verify-code');
     if (verifyInput) {
       verifyInput.value = '';
       setTimeout(function() { verifyInput.focus(); }, 300);
     }
 
-    // Hide any previous status
     var statusEl = document.getElementById('totp-verify-status');
     if (statusEl) statusEl.style.display = 'none';
 
@@ -595,7 +589,7 @@ var App = {
 
   verifyTOTPSetup: async function() {
     var inp = document.getElementById('totp-verify-code');
-    Sound.play('click'); // ✅ ADD at start
+    Sound.play('click');
     var code = inp ? inp.value.replace(/\D/g, '') : '';
     var statusEl = document.getElementById('totp-verify-status');
 
@@ -610,7 +604,6 @@ var App = {
       return;
     }
 
-    // Find and disable button
     var btns = document.querySelectorAll('#totp-step-verify button.btn-primary');
     var btn = btns.length > 0 ? btns[0] : null;
     if (btn) Utils.setButtonLoading(btn, true, 'Verifying...');
@@ -695,9 +688,6 @@ var App = {
     var statusBadge = document.getElementById('modal-status-badge');
     if (!modal || !body) return;
     
-
-
-    
     modal.classList.remove('hidden');
     body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
     footer.innerHTML = '';
@@ -709,19 +699,7 @@ var App = {
       return;
     }
 
-  
-  // Add loading skeleton instead of generic spinner
-  body.innerHTML = `
-
-
-    <div class="skeleton-loader">
-      <div class="skeleton-line" style="width:60%"></div>
-      <div class="skeleton-line" style="width:100%"></div>
-      <div class="skeleton-line" style="width:80%"></div>
-    </div>
-  `;
-
-var ticket = result.ticket;
+    var ticket = result.ticket;
     var isOwner = ticket.createdByEmail === Auth.getUserEmail();
     var canViewAll = Auth.canViewAllTickets();
 
@@ -740,81 +718,142 @@ var ticket = result.ticket;
       '<div class="ticket-detail-section"><h4><i class="fas fa-clock"></i> Timeline</h4><div class="detail-grid"><div class="detail-item"><label>Created</label><span>' + Utils.formatDateTime(ticket.createdTime) + '</span></div><div class="detail-item"><label>Assigned To</label><span>' + (ticket.assignedTo||'Not assigned') + '</span></div>' + (ticket.resolvedTime ? '<div class="detail-item"><label>Resolved</label><span>' + Utils.formatDateTime(ticket.resolvedTime) + '</span></div>' : '') + '</div></div>' +
       (ticket.resolutionNotes ? '<div class="ticket-detail-section"><h4><i class="fas fa-check-circle"></i> Resolution</h4><div class="detail-description">' + Utils.escapeHtml(ticket.resolutionNotes) + '</div></div>' : '') +
       (ticket.feedbackRating ? '<div class="ticket-detail-section"><h4><i class="fas fa-star"></i> Feedback</h4><div class="feedback-display"><div class="stars">' + '★'.repeat(ticket.feedbackRating) + '☆'.repeat(5-ticket.feedbackRating) + '</div>' + (ticket.feedbackComment ? '<p>"' + Utils.escapeHtml(ticket.feedbackComment) + '"</p>' : '') + '</div></div>' : '') +
-      (Auth.canManageTickets() ? '<div class="ticket-detail-section admin-controls"><h4><i class="fas fa-cog"></i> Admin Controls</h4><div class="detail-grid"><div class="input-group"><label>Assign To</label><select id="modal-assign-select"><option value="">Loading...</option></select></div><div class="input-group"><label>Status</label><select id="modal-status-select">' + CONFIG.STATUSES.map(function(s) { return '<option value="' + s.id + '"' + (s.id===ticket.status?' selected':'') + '>' + s.name + '</option>'; }).join('') + '</select></div><div class="input-group full-width"><label>Resolution Notes</label><textarea id="modal-resolution" rows="3">' + (ticket.resolutionNotes||'') + '</textarea></div></div></div>' : '');
+      (Auth.canManageTickets() ? '<div class="ticket-detail-section admin-controls"><h4><i class="fas fa-cog"></i> Admin Controls</h4><div class="detail-grid"><div class="input-group"><label>Assign To</label><input type="text" id="modal-assign-input" placeholder="Enter name or leave blank" value="' + (ticket.assignedTo || '') + '"></div><div class="input-group"><label>Status</label><select id="modal-status-select">' + CONFIG.STATUSES.map(function(s) { return '<option value="' + s.id + '"' + (s.id===ticket.status?' selected':'') + '>' + s.name + '</option>'; }).join('') + '</select></div><div class="input-group full-width"><label>Resolution Notes</label><textarea id="modal-resolution" rows="3">' + (ticket.resolutionNotes||'') + '</textarea></div></div></div>' : '');
 
-    // Load engineers
-    if (Auth.canManageTickets()) {
-      var assignSelect = document.getElementById('modal-assign-select');
-      if (assignSelect) {
-        var engResult = await Tickets.getEngineers();
-        if (engResult.success && engResult.engineers) {
-          assignSelect.innerHTML = '<option value="">Select...</option>' + engResult.engineers.map(function(e) {
-            return '<option value="' + e.email + '"' + (e.email===ticket.assignedToEmail?' selected':'') + '>' + e.name + '</option>';
-          }).join('');
-        }
-      }
-    }
-
+    // Build footer buttons
     var fh = '';
-    if (Auth.canManageTickets()) fh += '<button class="btn-primary" onclick="App.saveTicketChanges(\'' + ticket.ticketId + '\')"><i class="fas fa-save"></i> Save</button>';
-    if (Tickets.canSubmitFeedback(ticket)) fh += '<button class="btn-primary" style="background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="App.openFeedbackModal(\'' + ticket.ticketId + '\')"><i class="fas fa-star"></i> Rate</button>';
+    if (Auth.canManageTickets()) {
+      fh += '<button class="btn-primary" onclick="App.saveTicketChanges(\'' + ticket.ticketId + '\')"><i class="fas fa-save"></i> Save</button>';
+    }
+    
+    // Check if feedback can be submitted
+    var canGiveFeedback = (ticket.status === 'Resolved' || ticket.status === 'Closed') && 
+                          !ticket.feedbackRating && 
+                          ticket.createdByEmail === Auth.getUserEmail();
+    
+    if (canGiveFeedback) {
+      fh += '<button class="btn-primary" style="background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="App.openFeedbackModal(\'' + ticket.ticketId + '\')"><i class="fas fa-star"></i> Rate</button>';
+    }
+    
     fh += '<button class="btn-secondary" onclick="closeModal(\'ticket-modal\')">Close</button>';
     footer.innerHTML = fh;
   },
 
   saveTicketChanges: async function(ticketId) {
-    var assignSelect = document.getElementById('modal-assign-select');
+    var assignInput = document.getElementById('modal-assign-input');
     var status = document.getElementById('modal-status-select')?.value;
     var resolution = document.getElementById('modal-resolution')?.value;
     var updates = {};
-    if (assignSelect && assignSelect.value) {
-      updates.assignedToEmail = assignSelect.value;
-      updates.assignedTo = assignSelect.options[assignSelect.selectedIndex].text;
+    
+    if (assignInput && assignInput.value) {
+      updates.assignedTo = assignInput.value.trim();
     }
     if (status) updates.status = status;
     if (resolution !== undefined) updates.resolutionNotes = resolution;
-    if (Object.keys(updates).length === 0) { Utils.showToast('No changes', 'info'); return; }
+    
+    if (Object.keys(updates).length === 0) { 
+      Utils.showToast('No changes', 'info'); 
+      return; 
+    }
+    
     var result = await Tickets.update(ticketId, updates, true);
     if (result.success) {
       Utils.showToast('Updated!', 'success');
+      Sound.play('success');
       closeModal('ticket-modal');
       this.loadPage(this.currentPage);
     } else {
       Utils.showToast(result.message || 'Failed', 'error');
+      Sound.play('error');
     }
   },
 
   // ============ FEEDBACK ============
 
   openFeedbackModal: function(ticketId) {
-    var modal = document.getElementById('feedback-modal');
-    if (!modal) return;
-    document.getElementById('feedback-ticket-id').value = ticketId;
-    document.getElementById('feedback-rating').value = 0;
-    document.getElementById('feedback-comment').value = '';
-    document.getElementById('rating-text').textContent = 'Select a rating';
-    document.querySelectorAll('.star-rating .star').forEach(function(s) { s.classList.remove('active'); });
-    modal.classList.remove('hidden');
-    closeModal('ticket-modal');
     Sound.play('click');
+    
+    var modal = document.getElementById('feedback-modal');
+    if (!modal) {
+      console.error('Feedback modal not found');
+      Utils.showToast('Feedback modal not available', 'error');
+      return;
+    }
+    
+    // Reset form
+    var ticketIdInput = document.getElementById('feedback-ticket-id');
+    var ratingInput = document.getElementById('feedback-rating');
+    var commentInput = document.getElementById('feedback-comment');
+    var ratingText = document.getElementById('rating-text');
+    
+    if (ticketIdInput) ticketIdInput.value = ticketId;
+    if (ratingInput) ratingInput.value = '0';
+    if (commentInput) commentInput.value = '';
+    if (ratingText) ratingText.textContent = 'Select a rating';
+    
+    // Reset stars
+    document.querySelectorAll('.star-rating .star').forEach(function(s) { 
+      s.classList.remove('active'); 
+    });
+    
+    // Close ticket modal
+    closeModal('ticket-modal');
+    
+    // Show feedback modal
+    modal.classList.remove('hidden');
+    
+    console.log('Feedback modal opened for ticket:', ticketId);
   },
 
   handleFeedbackSubmit: async function(e) {
     e.preventDefault();
-    var ticketId = document.getElementById('feedback-ticket-id').value;
-    var rating = parseInt(document.getElementById('feedback-rating').value);
-    var comment = document.getElementById('feedback-comment').value;
-    if (!rating || rating < 1) { Utils.showToast('Select a rating', 'error'); return; }
+    Sound.play('click');
+    
+    var ticketIdInput = document.getElementById('feedback-ticket-id');
+    var ratingInput = document.getElementById('feedback-rating');
+    var commentInput = document.getElementById('feedback-comment');
+    
+    if (!ticketIdInput || !ratingInput || !commentInput) {
+      Utils.showToast('Form elements not found', 'error');
+      return;
+    }
+    
+    var ticketId = ticketIdInput.value;
+    var rating = parseInt(ratingInput.value);
+    var comment = commentInput.value.trim();
+    
+    console.log('Submitting feedback:', { ticketId, rating, comment });
+    
+    if (!ticketId) {
+      Utils.showToast('Invalid ticket ID', 'error');
+      return;
+    }
+    
+    if (!rating || rating < 1 || rating > 5) {
+      Utils.showToast('Please select a rating (1-5 stars)', 'error');
+      Sound.play('error');
+      return;
+    }
+    
     var btn = e.target.querySelector('button[type="submit"]');
     Utils.setButtonLoading(btn, true, 'Submitting...');
+    
     var result = await Tickets.submitFeedback(ticketId, rating, comment);
+    
     Utils.setButtonLoading(btn, false);
+    
     if (result.success) {
-      Utils.showToast('Thank you! 🌟', 'success');
+      Utils.showToast('Thank you for your feedback! 🌟', 'success');
+      Sound.play('success');
       closeModal('feedback-modal');
-      this.loadPage(this.currentPage);
+      
+      // Refresh current page
+      if (this.currentPage) {
+        this.loadPage(this.currentPage);
+      }
     } else {
-      Utils.showToast(result.message || 'Failed', 'error');
+      Utils.showToast(result.message || 'Failed to submit feedback', 'error');
+      Sound.play('error');
     }
   },
 
@@ -845,7 +884,7 @@ var ticket = result.ticket;
     // Auth tabs
     document.querySelectorAll('.auth-tab').forEach(function(tab) {
       tab.addEventListener('click', function() {
-        Sound.play('click'); // ✅ ADD THIS
+        Sound.play('click');
         document.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
         tab.classList.add('active');
         var isAdmin = tab.dataset.tab === 'admin';
@@ -921,7 +960,7 @@ var ticket = result.ticket;
     // Admin tabs
     document.querySelectorAll('.admin-tab').forEach(function(tab) {
       tab.addEventListener('click', function() {
-         Sound.play('click'); // ✅ ADD THIS
+        Sound.play('click');
         document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
         tab.classList.add('active');
         var tabName = tab.dataset.tab;
@@ -1006,7 +1045,7 @@ var ticket = result.ticket;
 
   handleRegister: async function(e) {
     e.preventDefault();
-     Sound.play('click'); // ✅ ADD THIS
+    Sound.play('click');
     var userData = {
       firstName: (document.getElementById('reg-firstname')?.value || '').trim(),
       lastName: (document.getElementById('reg-lastname')?.value || '').trim(),
@@ -1022,11 +1061,11 @@ var ticket = result.ticket;
     Utils.setButtonLoading(btn, false);
     if (result.success) {
       Utils.showToast('Registration submitted!', 'success');
-      Sound.play('success'); // ✅ ADD THIS
+      Sound.play('success');
       Utils.hide('register-card'); Utils.show('pending-card');
       document.getElementById('pending-email').textContent = userData.email;
     } else {
-      Sound.play('error'); // ✅ ADD THIS
+      Sound.play('error');
       Utils.showToast(result.message || 'Failed', 'error');
     }
   }
